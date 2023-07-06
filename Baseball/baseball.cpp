@@ -39,13 +39,41 @@ public:
 		}
 	}
 
+	int getStrike(const string& guessNumber)
+	{
+		int count = 0;
+		for (int i = 0; i < guessNumber.size(); ++i) {
+			if (guessNumber[i] == question[i])
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+
+	int getBall(const string& guessNumber)
+	{
+		int count = 0;
+		for (int i = 0; i < guessNumber.size(); ++i) {
+			for (int j = 0; j < question.size(); ++j)
+			if (guessNumber[i] == question[j] && i != j)
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+
 	GuessResult guess(std::string guessNumber)
 	{
 		assertIllegalArgument(guessNumber);
 		if (guessNumber == question) {
 			return { true ,3, 0 };
 		}
-		return { false, 3, 0 };
+
+		int strike = getStrike(guessNumber);
+		int ball = getBall(guessNumber);
+		return { false, strike, ball };
 	}
 private:
 	string question;
